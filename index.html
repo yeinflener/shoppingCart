@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart</title>
+</head>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  h1, h2, h3, p {
+    text-align: center;
+  }
+  #cont-header-title-resp {
+    display: none;
+  }
+  /* to display item content using grid - 3 columns */
+  .cont-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    /*background-color:rgb(68, 68, 248);
+    padding: 3px;*/
+    width: 95%;
+    margin: auto;
+  }
+  /* each grid cell */
+  .grid-item {
+    background-color:coral;
+    background-image: radial-gradient(circle, rgb(240, 54, 30) 20%, rgb(248, 246, 146) 120%
+    );
+    border: 1px solid rgba(0,0,0,0.8);
+    padding: 10px;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  /* images for each content item */
+  img {
+    width: 40%;
+    height: 35%;
+  }
+  /* display block for content item */
+  #item-title,
+  #item-desc,
+  #item-price {
+    display: block;
+  }
+  #item-title,
+  #item-price {
+    font-weight: 500;
+    font-size: 1.6rem;
+  }
+  #item-desc {
+    font-size: 1.1rem;
+  }
+  /* buttons for add content item */
+  .button_addItem {
+    font-size: 1.2rem;
+    background-color: rgb(34, 33, 33);
+    color: red;
+    font-weight: 600;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .button_addItem:hover {background-color: #ebf5ec}
+
+  .button_addItem:active {
+    background-color: #f13708;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+
+  /* container for add to cart */
+  #cont-cart {
+    text-align: center;
+    font-size: 1.3rem;
+  }
+  /* container for payment */
+  #cont-payment {
+    text-align: center;
+  }
+  #button_pay {
+    background-color: rgb(65, 158, 22);
+    color: white;
+    font-size: 1.2rem;
+    border: none;
+    width: 30%;
+    padding: 10px 10px;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+  }
+  #button_pay:hover {
+    transform: scale(1.05);
+  }
+  /* container for output of change */
+  #outputDiv {
+    margin: 50px 50px;
+    border: 5px outset rgb(61, 47, 47);
+    background-color: rgb(250, 138, 94);
+    font-size: 1.3rem;
+    white-space: pre-wrap;
+  }
+
+  /* Use a media query to add a breakpoint at 1048px changing grid display to 2 columns */
+  @media screen and (max-width: 1048px) {
+    .cont-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  /* Use a media query to add a breakpoint at 700px changing grid display to 1 column*/
+  @media screen and (max-width: 700px) {
+    .cont-grid {
+      grid-template-columns: 1fr;
+    }
+    #cont-header-title {
+     display: none; 
+    }
+    #cont-header-title-resp {
+      display: block;
+      font-size: 2rem;
+    }
+  }
+</style>
+<body>
+  <div id="cont-header" align= "center">
+    <text id="cont-header-title" style="font-size: 2.5rem; font-weight:700">Welcome to</text><text>&nbsp;</text>
+    <h1 id="cont-header-title-resp">Welcome to</h1>
+    <text style="color: red; font-size: 4rem; font-weight: 700">E</text>
+    <text style="color:rgb(82, 80, 80); font-size: 2.8rem; font-weight: 700">V</text>
+    <text style="color:rgb(82, 80, 80); font-size: 2.8rem; font-weight: 700">I</text>
+    <text style="color:rgb(82, 80, 80); font-size: 2.8rem; font-weight: 700">L</text>
+    <text>&nbsp;</text>
+    <text style="color:red; font-size: 4rem; font-weight: 700">I</text>
+    <text style="color:rgb(82, 80, 80); font-size: 2.8rem; font-weight: 700">N</text>
+    <text style="color:rgb(82, 80, 80); font-size: 2.8rem; font-weight: 700">C</text>
+
+    <p  style="font-size: 1.2rem">Add items to your cart from our selection. Scroll down to complete your purchase.</p>
+  </div>
+  <div class="cont-grid">
+    <div class="grid-item">
+      <img src="./img/evil_cat.png">
+      <text id="item-title">Evil Cat</text>
+      <br>
+      <text id="item-desc">1 Evil Cat that will sit on your lap while you monologue!</text>
+      <text id="item-price">$199.23</text>
+      <button class="button_addItem" onclick="addCat()">Add to Cart</button>
+    </div>
+    <div class="grid-item">
+      <img src="./img/evil_deathray.png">
+      <text id="item-title">Death Ray</text>  
+      <br>  
+      <text id="item-desc">Destroy the world! Or you know that one guy who cut in front of you at the froyo place last week.</text>
+      <text id="item-price">$25.88</text>
+      <button class="button_addItem" id="button_addDeathray" onclick="addDeathray()">Add to Cart</button>
+    </div>
+    <div class="grid-item">
+      <img src="./img/evil_minion.png">
+      <text id="item-title">Minion</text>
+      <br>
+      <text id="item-desc">Every great leader needs a support staff of minions. Don't forget your HR department.</text>
+      <text id="item-price">$5.11</text>
+      <button class="button_addItem" id="button_addMinion" onclick="addMinion()">Add to Cart</button>
+    </div>
+    <div class="grid-item">
+      <img src="./img/evil_liar.jpg">
+      <text id="item-title">Evil Liar</text>
+      <br>
+      <text id="item-desc">Get your liar now before interest rates go up again</text>
+      <text id="item-price">$999.56</text>
+      <button class="button_addItem" id="button_addLiar" onclick="addLiar()">Add to Cart</button>
+    </div>
+    <div class="grid-item">
+      <img src="./img/evil_shark.png">
+      <text id="item-title">Shark</text>
+      <br>
+      <text id="item-desc">You gotta put something in the tank</text>
+      <text id="item-price">$250.44</text>
+      <button class="button_addItem" id="button_addShark" onclick="addShark()">Add to Cart</button>
+    </div>
+    <div class="grid-item">
+      <img src="./img/evil_outfit.png">
+      <text id="item-title">Evil Outfit</text>
+      <br>
+      <text id="item-desc">Intimidate your enemies and your co workers</text>
+      <text id="item-price">$3.28</text>
+      <button class="button_addItem" id="button_addOutfit" onclick="addOutfit()">Add to Cart</button>
+    </div>    
+  </div>
+  <br>
+  <br>
+  <br>
+  <hr>
+  <div id="cont-cart">
+    <h3>Check Out</h3>
+    <h4>Items in your Cart</h4>
+    <div id="cart_item_added"></div>
+    <div id="cart_total"></div> 
+  </div>
+  <hr>
+
+  <div id="cont-payment">
+    <button id="button_pay" onclick="pay()">Pay</button>
+    <div id="outputDiv"></div>
+  </div>
+
+
+  <script>
+    var totalPrice = 0;
+    var price = 0;
+    var amount = 0;
+    //function to add each content item to cart per user click on buttons
+    function addCat() {
+      totalPrice = totalPrice + 199.23;
+      document.getElementById("cart_item_added").innerHTML += "Evil Cat - $199.23<br>";
+      price = totalPrice.toFixed(2);
+      console.log("Updated price is now: " + price);
+      document.getElementById("cart_total").innerHTML = "<br><b>Your total is:</b> $" + price + "<br>";
+    }
+    function addDeathray() {
+      totalPrice = totalPrice + 25.88;
+      document.getElementById("cart_item_added").innerHTML += "Death Ray - $25.88<br>";
+      price = totalPrice.toFixed(2);
+      console.log("Updated price is now: " + price);
+      document.getElementById("cart_total").innerHTML = "<br><b>Your total is:</b> $" + price + "<br>";
+    }
+    function addMinion() {
+      totalPrice = totalPrice + 5.11;
+      document.getElementById("cart_item_added").innerHTML += "Minion - $5.11<br>";
+      price = totalPrice.toFixed(2);
+      console.log("Updated price is now: " + price);
+      document.getElementById("cart_total").innerHTML = "<br><b>Your total is:</b> $" + price + "<br>";
+    }
+    function addLiar() {
+      totalPrice = totalPrice + 999.56;
+      document.getElementById("cart_item_added").innerHTML += "Evil Liar - $999.56<br>";
+      price = totalPrice.toFixed(2);
+      console.log("Updated price is now: " + price);
+      document.getElementById("cart_total").innerHTML = "<br><b>Your total is:</b> $" + price + "<br>";
+    }
+    function addShark() {
+      totalPrice = totalPrice + 250.44;
+      document.getElementById("cart_item_added").innerHTML += "Shark - $250.44<br>"
+      price = totalPrice.toFixed(2);
+      console.log("Updated price is now: " + price);
+      document.getElementById("cart_total").innerHTML = "<br><b>Your total is:</b> $" + price + "<br>";
+    }
+    function addOutfit() {
+      totalPrice = totalPrice + 3.28;
+      document.getElementById("cart_item_added").innerHTML += "Evil Outfit - $3.28<br>";
+      price = totalPrice.toFixed(2);
+      console.log("Updated price is now: " + price);
+      document.getElementById("cart_total").innerHTML = "<br><b>Your total is:</b> $" + price + "<br>";
+    }
+
+    //function to calculate qty of each "denomination" to make the change
+    function pay() {
+      var amount = price;
+      var hundred = 0;
+      var twenty = 0;
+      var ten = 0;
+      var one = 0;
+      var quarter = 0;
+      var dime = 0;
+      var nickel = 0;
+      var penny = 0;
+      //alert("type of: " + typeof(hundred));
+      //alert("hundred is: " + hundred);
+
+      hundred = Math.floor(amount / 100);    
+      amount = (amount % 100).toFixed(2);
+      //c.l. for testing
+      console.log("hundred is " + hundred);
+      console.log(amount);
+
+      twenty = Math.floor(amount / 20);
+      amount = (amount % 20).toFixed(2);
+      //c.l. for testing
+      console.log("twenty is " + twenty);
+      console.log(amount);
+
+      ten = Math.floor(amount / 10);
+      amount = (amount % 10).toFixed(2);
+      //c.l. for testing
+      console.log("ten is " + ten);
+      console.log(amount);
+
+      one = Math.floor(amount / 1);
+      amount = (amount % 1).toFixed(2);
+      //c.l. for testing
+      console.log("one is " + one);
+      console.log(amount);
+
+      quarter = Math.floor(amount / .25);
+      amount = (amount % 0.25).toFixed(2);
+      //c.l. for testing
+      console.log("quarter is " + quarter);
+      console.log(amount);
+      
+      dime = Math.floor(amount / .10);
+      amount = (amount % .1).toFixed(2);
+      //c.l. for testing
+      console.log("dime is " + dime);
+      console.log(amount);
+
+      nickel = Math.floor(amount / 0.05);
+      amount = (amount % .05).toFixed(2);
+      //c.l. for testing
+      console.log("nickel is " + nickel);
+      console.log(amount);
+
+      penny = Math.floor(amount / .01);
+      amount = (amount % .01).toFixed(2);
+      //c.l. for testing
+      console.log("penny is " + penny);
+      console.log(amount);
+
+      //Update the outputDiv below to print the quantity of each "denomination"
+      document.getElementById("outputDiv").innerHTML = "<h3>Total Change Owed</h3>";
+      document.getElementById("outputDiv").innerHTML += "<p>" + hundred + " Hundreds</p>";
+      document.getElementById("outputDiv").innerHTML += "<p>" + twenty + " Twenties</p>"
+      document.getElementById("outputDiv").innerHTML += "<p>" + ten + " Tens</p>"
+      document.getElementById("outputDiv").innerHTML += "<p>" + one + " Ones</p>"
+      document.getElementById("outputDiv").innerHTML += "<p>" + quarter + " Quarters</p>"
+      document.getElementById("outputDiv").innerHTML += "<p>" + dime + " Dimes</p>"
+      document.getElementById("outputDiv").innerHTML += "<p>" + nickel + " Nickels</p>"
+      document.getElementById("outputDiv").innerHTML += "<p>" + penny + " Pennies</p>"    
+      }
+
+  </script>
+  
+</body>
+</html>
